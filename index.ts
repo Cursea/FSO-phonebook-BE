@@ -10,6 +10,7 @@ app.use(cors())
 app.use(morgan(':method :url :status :res[content-length] :response-time ms :postBody'))
 
 const PORT = process.env.port || 3001
+const baseUrl = `/api/persons`
 
 morgan.token('postBody', (req: Request) => {
   return JSON.stringify(req.body)
@@ -43,7 +44,7 @@ app.get('/', (req: Request, res: Response) => {
   res.send(`
     <h1>Ciao, planeta</h1>
     <h2>💞 Marco loves Kiki! 🥰</h2>
-    <h3><a href='http://localhost:${PORT}/api/persons'>GET persons</h3>
+    <h3><a href=${baseUrl}>GET persons</h3>
     `)
 })
 
@@ -53,11 +54,11 @@ app.get('/info', (req: Request, res: Response) => {
     <p>${new Date()}</p>`)
 })
 
-app.get('/api/persons', (req: Request, res: Response) => {
+app.get(`${baseUrl}`, (req: Request, res: Response) => {
   res.json(persons)
 })
 
-app.get('/api/persons/:id', (req: Request, res: Response) => {
+app.get(`${baseUrl}/:id`, (req: Request, res: Response) => {
   const id = req.params.id
   const person = persons.find(person => person.id === id)
 
@@ -68,7 +69,7 @@ app.get('/api/persons/:id', (req: Request, res: Response) => {
   }
 })
 
-app.delete('/api/persons/:id', (req: Request, res: Response) => {
+app.delete(`${baseUrl}/:id`, (req: Request, res: Response) => {
   const id = req.params.id
 
   // Mutate in place
@@ -94,7 +95,7 @@ const isDuplicatePersonName = (name: string) =>
     return person.name === name
   })
 
-app.post('/api/persons', (req: Request, res: Response) => {
+app.post(`${baseUrl}`, (req: Request, res: Response) => {
   const body = req.body
 
   if (!body) {
@@ -131,5 +132,5 @@ app.post('/api/persons', (req: Request, res: Response) => {
 })
 
 app.listen(PORT, () => {
-  console.log(`server running on port:${PORT}`)
+  console.log(`🔎 server running on port:${PORT}`)
 })
