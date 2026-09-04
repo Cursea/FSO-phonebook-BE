@@ -9,7 +9,7 @@ app.use(express.json())
 app.use(cors())
 app.use(morgan(':method :url :status :res[content-length] :response-time ms :postBody'))
 
-const PORT = process.env.port || 3001
+const PORT = process.env.PORT || 3001
 const baseUrl = `/api/persons`
 
 morgan.token('postBody', (req: Request) => {
