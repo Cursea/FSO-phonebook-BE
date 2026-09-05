@@ -9,7 +9,9 @@
   "scripts": {
     "start": "tsx index.ts",
     "dev": "tsx watch --clear-screen=false index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:ui": "@powershell Remove-Item -Recurse -Force dist && cd ../FSO/part2/phonebook && npm run build && @powershell Copy-Item dist -Recurse ../../../FSO-phonebook-BE",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
   },
   "dependencies": {
     "@types/morgan": "^1.9.10",
